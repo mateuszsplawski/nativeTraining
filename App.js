@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Button, TextInput, StyleSheet, Text } from "react-native";
+import {
+  View,
+  Button,
+  TextInput,
+  StyleSheet,
+  Text,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 const App = () => {
   const [text, setText] = useState("");
@@ -16,18 +24,22 @@ const App = () => {
         <Button
           title="Dodaj"
           onPress={() => {
-            setGoals([...goals, text]);
+            setGoals([
+              ...goals,
+              { key: Math.random().toString(), value: text },
+            ]);
             setText("");
           }}
         />
       </View>
-      <View>
-        {goals.map((goal, id) => (
-          <Text key={id} style={styles.text}>
-            {id + 1}. {goal}
+      <FlatList
+        data={goals}
+        renderItem={(itemData) => (
+          <Text key={itemData.item.key} style={styles.text}>
+            {itemData.index + 1}. {itemData.item.value}
           </Text>
-        ))}
-      </View>
+        )}
+      />
     </View>
   );
 };
